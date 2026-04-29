@@ -36,7 +36,6 @@ public class Typist
     //Typing accuracy
     private double accuracy;
 
-
     // Constructor of class Typist
     /**
      * Constructor for objects of class Typist.
@@ -56,9 +55,8 @@ public class Typist
         burnOutRemaining = 0;
     }
 
-
     // Methods of class Typist
-
+    
     /**
      * Sets this typist into a burnout state for a given number of turns.
      * A burnt-out typist cannot type until their burnout has worn off.
