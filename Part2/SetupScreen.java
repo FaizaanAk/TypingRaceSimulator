@@ -55,14 +55,16 @@ public class SetupScreen extends JPanel
         title.setBorder(BorderFactory.createEmptyBorder(14, 0, 10, 0));
         add(title, BorderLayout.NORTH);
 
-        // Main content split into left (race config) and right (typist config)
-        JPanel mainPanel = new JPanel(new GridLayout(1, 2, 15, 0));
-        mainPanel.setOpaque(false);
+        // Main content panels
+        tabs = new JTabbedPane();
+        tabs.setFont(new Font("Monospaced", Font.BOLD, 13));
+        tabs.setBackground(new Color(30, 30, 40));
+        tabs.setForeground(new Color(0, 220, 180));
 
-        mainPanel.add(buildRaceSetupScreen());
-        mainPanel.add(buildTypistSetupScreen());
+        tabs.addTab("  Race Configuration  ", buildRaceSetupScreen());
+         tabs.addTab("  Typist Customisation  ", buildTypistSetupScreen());
 
-        add(mainPanel, BorderLayout.CENTER);
+        add(tabs, BorderLayout.CENTER);
 
         // Start button
         JButton startButton = new JButton("START RACE");
