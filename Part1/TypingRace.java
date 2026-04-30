@@ -105,7 +105,24 @@ public class TypingRace
                 TimeUnit.MILLISECONDS.sleep(200);
             } catch (Exception e) {}
         }
-        // TODO (Task 2a): Print the winner's name here
+        // Print the winner's name here
+
+        Typist winner;
+        if (raceFinishedBy(seat1Typist))
+        {
+            winner = seat1Typist;
+        }
+        else if (raceFinishedBy(seat2Typist))
+        {
+            winner = seat2Typist;
+        }
+        else
+        {
+            winner = seat3Typist;
+        }
+        
+        System.out.println();
+        System.out.println("And the winner is... " + winner.getName() + "!");
     }
 
     /**
@@ -140,6 +157,11 @@ public class TypingRace
         if (Math.random() < (1.0 - theTypist.getAccuracy()) * MISTYPE_BASE_CHANCE)
         {
             theTypist.slideBack(SLIDE_BACK_AMOUNT);
+            theTypist.setJustMistyped(true);
+        }
+        else
+        {
+            theTypist.setJustMistyped(false);
         }
 
         // Burnout check — pushing too hard increases burnout risk
@@ -225,6 +247,12 @@ public class TypingRace
             spacesAfter--; // symbol + ~ together take two characters
         }
 
+        if (theTypist.getJustMistyped())
+        {
+            System.out.print('<'); 
+            spacesAfter--;
+        }
+
         multiplePrint(' ', spacesAfter);
         System.out.print('|');
         System.out.print(' ');
@@ -236,6 +264,12 @@ public class TypingRace
                 + " (Accuracy: " + theTypist.getAccuracy() + ")"
                 + " BURNT OUT (" + theTypist.getBurnoutTurnsRemaining() + " turns)");
         }
+
+        else if (theTypist.getJustMistyped())
+        {
+            System.out.print(theTypist.getName() + " (Accuracy: " + theTypist.getAccuracy() + ")" + " <- just mistyped");
+        }
+
         else
         {
             System.out.print(theTypist.getName()
@@ -258,4 +292,14 @@ public class TypingRace
             i = i + 1;
         }
     }
+
+    public static void main(String[] args)
+    {
+        TypingRace race = new TypingRace(20);
+        race.addTypist(new Typist('①', "TURBOFINGERS", 0.85), 1);
+        race.addTypist(new Typist('②', "QWERTY_QUEEN", 0.60), 2);
+        race.addTypist(new Typist('③', "HUNT_N_PECK",  0.30), 3);
+        race.startRace();
+    }
 }
+

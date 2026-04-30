@@ -36,6 +36,8 @@ public class Typist
     //Typing accuracy
     private double accuracy;
 
+    private boolean justMistyped;
+
     // Constructor of class Typist
     /**
      * Constructor for objects of class Typist.
@@ -53,6 +55,7 @@ public class Typist
         progress = 0;
         burnOut = false;
         burnOutRemaining = 0;
+        justMistyped = false;
     }
 
     // Methods of class Typist
@@ -184,6 +187,16 @@ public class Typist
         {
             progress = 0;
         }
+    }
+
+    public void setJustMistyped(boolean value)
+    {
+        justMistyped = value;
+    }
+
+    public boolean getJustMistyped()
+    {
+        return justMistyped;
     }
 
     /**
