@@ -1,4 +1,4 @@
-public class test {
+public class testing {
     public static void main(String[] args) 
     {
         //Test 1: That progress cannot go below zero after calling slideBack()
