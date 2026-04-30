@@ -34,6 +34,7 @@ public class SetupScreen extends JPanel
     // Per-typist panels
     private ArrayList<TypistConfigPanel> typistPanels;
     private JPanel typistPanelContainer;
+    private JTabbedPane tabs;
 
     // Constructor
     public SetupScreen(JFrame parentFrame)
@@ -41,14 +42,17 @@ public class SetupScreen extends JPanel
         this.parentFrame = parentFrame;
         typistPanels = new ArrayList<>();
 
-        setLayout(new BorderLayout(10, 10));
+        setLayout(new BorderLayout(0, 0));
         setBackground(new Color(30, 30, 40));
-        setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
         // Title
         JLabel title = new JLabel("TYPING RACE SIMULATOR", SwingConstants.CENTER);
         title.setFont(new Font("Monospaced", Font.BOLD, 26));
         title.setForeground(new Color(0, 220, 180));
+
+        title.setOpaque(true);
+        title.setBackground(new Color(20, 20, 30));
+        title.setBorder(BorderFactory.createEmptyBorder(14, 0, 10, 0));
         add(title, BorderLayout.NORTH);
 
         // Main content split into left (race config) and right (typist config)
@@ -203,7 +207,7 @@ public class SetupScreen extends JPanel
         }
         else
         {
-            passage = passage[selectedPassage];
+            passage = passages[selectedPassage];
         }
 
         // Collect difficulty modifiers
