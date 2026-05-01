@@ -32,14 +32,14 @@ public class StatsScreen extends JPanel
         title.setBorder(BorderFactory.createEmptyBorder(18, 0, 10, 0));
         add(title, BorderLayout.NORTH);
 
-        // --- Table of stats ---
+        // Table of stats
         String[] columns = {"Place", "Typist", "WPM", "Accuracy %", "Burnouts", "Accuracy Δ"};
         Object[][] data = new Object[typists.length][columns.length];
 
         double timeMinutes = totalTimeMs / 1000.0 / 60.0;
         for (int i = 0; i < typists.length; i++) 
         {
-
+            // Calculates the stats
             String place = finishPositions[i] > 0 ? ("#" + finishPositions[i]) : "-";
             String typistStr = typists[i].getSymbol() + "  " + typists[i].getName();
             double wpm = (passageLength / 5.0) / (timeMinutes > 0 ? timeMinutes : 1);
@@ -62,6 +62,7 @@ public class StatsScreen extends JPanel
             data[i][5] = accDelta;
         }
 
+        //Creates the leederboard table
         javax.swing.JTable table = new javax.swing.JTable(data, columns);
         table.setFont(new Font("Monospaced", Font.PLAIN, 14));
         table.setRowHeight(28);
