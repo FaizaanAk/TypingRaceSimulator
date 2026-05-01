@@ -152,6 +152,7 @@ public class Typist
         progress = 0;
         burnOut = false;
         burnOutRemaining = 0;
+        justMistyped = false;
     }
 
     /**

@@ -243,7 +243,7 @@ public class SetupScreen extends JPanel
         }
 
         // Launch race screen
-        RaceDisplay raceScreen = new RaceDisplay(parentFrame, typists, passage, autocorrect, caffeineMode, nightShift);
+        RaceDisplay raceScreen = new RaceDisplay(parentFrame, typists, passage, autocorrect, caffeineMode, nightShift, typistPanels);
         parentFrame.setContentPane(raceScreen);
         parentFrame.revalidate();
     }

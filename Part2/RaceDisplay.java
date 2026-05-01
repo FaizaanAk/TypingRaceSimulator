@@ -344,7 +344,7 @@ public class RaceDisplay extends JPanel
 
             javax.swing.text.Style curStyle = passagePane.getStyle("cur") != null ? passagePane.getStyle("cur") : passagePane.addStyle("cur", base);
             Color cursorColour = typist.isBurntOut() ? charBurnout
-                   : typist.isJustMistyped() ? charMistyped
+                   : typist.getJustMistyped() ? charMistyped
                    : charCurrent;
             javax.swing.text.StyleConstants.setBackground(curStyle, cursorColour);
             javax.swing.text.StyleConstants.setForeground(curStyle, Color.BLACK);
@@ -373,12 +373,12 @@ public class RaceDisplay extends JPanel
             String status = "Accuracy: " + String.format("%.2f", typist.getAccuracy());
             if (typist.isBurntOut())
                 status = "BURNT OUT (" + typist.getBurnoutTurnsRemaining() + " turns)  |  " + status;
-            else if (typist.isJustMistyped())
+            else if (typist.getJustMistyped())
                 status = "\u2190 mistyped  |  " + status;
 
             statusLabel.setText(status);
             statusLabel.setForeground(typist.isBurntOut() ? charBurnout
-                                    : typist.isJustMistyped() ? charMistyped
+                                    : typist.getJustMistyped() ? charMistyped
                                     : textPrimaryColour);
         }
     }
