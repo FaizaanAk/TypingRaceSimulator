@@ -123,7 +123,7 @@ public class TypingRace
         
         System.out.println();
         System.out.println("And the winner is... " + winner.getName() + "!");
-        System.out.println("Final accuracy: " +  winner.getAccuracy());
+        System.out.println("Final accuracy: " + winner.getAccuracy());
     }
 
     /**

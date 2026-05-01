@@ -26,6 +26,8 @@ public class SetupScreen extends JPanel
     private JFrame parentFrame;
     private JComboBox<String> passageCombo;
     private JTextArea customPassageArea;
+    private JScrollPane customPassageScroll;
+    private JLabel customPassageLabel;
     private JSpinner seatCountSpinner;
     private JCheckBox autocorrectBox;
     private JCheckBox caffeineModeBox;
@@ -36,6 +38,15 @@ public class SetupScreen extends JPanel
     private JPanel typistPanelContainer;
     private JTabbedPane tabs;
 
+    // Colour scheme
+    private static final Color mainBackgroundColour = new Color(18, 18, 28);  
+    private static final Color panelBackgroundColour = new Color(30, 32, 48);   
+    private static final Color fieldBackgroundColour = new Color(42, 45, 65);   
+    private static final Color accentColour = new Color(72, 199, 170);  
+    private static final Color textPrimaryColour = new Color(230, 230, 240); 
+    private static final Color textSecondaryColour = new Color(170, 172, 195);
+    private static final Color borderColour = new Color(60, 65, 95);  
+
     // Constructor
     public SetupScreen(JFrame parentFrame)
     {
@@ -43,33 +54,31 @@ public class SetupScreen extends JPanel
         typistPanels = new ArrayList<>();
 
         setLayout(new BorderLayout(0, 0));
-        setBackground(new Color(30, 30, 40));
+        setBackground(mainBackgroundColour);
 
         // Title
         JLabel title = new JLabel("TYPING RACE SIMULATOR", SwingConstants.CENTER);
         title.setFont(new Font("Monospaced", Font.BOLD, 26));
         title.setForeground(new Color(0, 220, 180));
-
+         title.setForeground(accentColour);
         title.setOpaque(true);
         title.setBackground(new Color(20, 20, 30));
         title.setBorder(BorderFactory.createEmptyBorder(14, 0, 10, 0));
         add(title, BorderLayout.NORTH);
 
-        // Main content panels
+        // Tabs
         tabs = new JTabbedPane();
         tabs.setFont(new Font("Monospaced", Font.BOLD, 13));
-        tabs.setBackground(new Color(30, 30, 40));
-        tabs.setForeground(new Color(0, 220, 180));
 
+        tabs.setBackground(mainBackgroundColour);
+        tabs.setForeground(textPrimaryColour);
         tabs.addTab("  Race Configuration  ", buildRaceSetupScreen());
-         tabs.addTab("  Typist Customisation  ", buildTypistSetupScreen());
-
+        tabs.addTab("  Typist Customisation  ", buildTypistSetupScreen());
         add(tabs, BorderLayout.CENTER);
 
         // Start button
         JButton startButton = new JButton("START RACE");
-        startButton.setFont(new Font("Monospaced", Font.BOLD, 18));
-        startButton.setBackground(new Color(0, 180, 140));
+        startButton.setBackground(new Color(40, 180, 140));
         startButton.setForeground(Color.WHITE);
         startButton.setFocusPainted(false);
         startButton.setBorder(BorderFactory.createEmptyBorder(12, 0, 12, 0));
@@ -77,46 +86,59 @@ public class SetupScreen extends JPanel
         startButton.addActionListener(e -> startRace());
         add(startButton, BorderLayout.SOUTH);
 
-        // Initialise with 2 typist panels
+        // Start with 2 typist panels
         updateTypistPanels(2);
     }
 
     // Build left panel — race configuration
     private JPanel buildRaceSetupScreen()
     {
+        JPanel outer = new JPanel(new GridBagLayout());
+        outer.setBackground(mainBackgroundColour);
+
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBackground(new Color(40, 40, 55));
-        panel.setBorder(BorderFactory.createTitledBorder(
-            BorderFactory.createLineBorder(new Color(0, 180, 140)),
-            "Race Configuration",
-            TitledBorder.LEFT, TitledBorder.TOP,
-            new Font("Monospaced", Font.BOLD, 13),
-            new Color(0, 180, 140)
-        ));
+
+        panel.setBackground(mainBackgroundColour);
+        panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(accentColour),"Race Configuration", TitledBorder.LEFT, TitledBorder.TOP,new Font("Monospaced", Font.BOLD, 13),accentColour));
+        panel.setPreferredSize(new Dimension(700, 450));
 
         //Passage selection
         panel.add(makeLabel("Passage Length:"));
         passageCombo = new JComboBox<>(passageLabels);
         passageCombo.setFont(new Font("Monospaced", Font.PLAIN, 13));
         passageCombo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
-        passageCombo.setBackground(new Color(55, 55, 70));
-        passageCombo.setForeground(Color.WHITE);
+        passageCombo.setBackground(mainBackgroundColour);
+        passageCombo.setForeground(textPrimaryColour);
         panel.add(passageCombo);
         panel.add(Box.createVerticalStrut(8));
 
-        panel.add(makeLabel("Custom Passage (if selected above):"));
+        customPassageLabel = makeLabel("Custom Passage:");
+        customPassageLabel.setVisible(false);
+        panel.add(customPassageLabel);
+
         customPassageArea = new JTextArea(3, 20);
         customPassageArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
         customPassageArea.setLineWrap(true);
         customPassageArea.setWrapStyleWord(true);
-        customPassageArea.setBackground(new Color(55, 55, 70));
-        customPassageArea.setForeground(Color.WHITE);
-        customPassageArea.setCaretColor(Color.WHITE);
-        JScrollPane scrollPane = new JScrollPane(customPassageArea);
-        scrollPane.setMaximumSize(new Dimension(Integer.MAX_VALUE, 80));
-        panel.add(scrollPane);
+        customPassageArea.setBackground(mainBackgroundColour);
+        customPassageArea.setForeground(textPrimaryColour);
+        customPassageArea.setCaretColor(textPrimaryColour);
+        customPassageScroll = new JScrollPane(customPassageArea);
+        customPassageScroll.setMaximumSize(new Dimension(Integer.MAX_VALUE, 80));
+
+        customPassageScroll.setVisible(false);
+        panel.add(customPassageScroll);
         panel.add(Box.createVerticalStrut(12));
+
+         passageCombo.addActionListener(e ->
+        {
+            boolean isCustom = passageCombo.getSelectedIndex() == 3;
+            customPassageLabel.setVisible(isCustom);
+            customPassageScroll.setVisible(isCustom);
+            panel.revalidate();
+            panel.repaint();
+        });
 
         // Seat count
         panel.add(makeLabel("Number of Typists (2-6):"));
@@ -141,33 +163,29 @@ public class SetupScreen extends JPanel
         panel.add(nightShiftBox);
         panel.add(Box.createVerticalGlue());
 
-        return panel;
+        outer.add(panel);
+        return outer;
     }
 
     // Build right panel — typist configuration
     private JPanel buildTypistSetupScreen()
     {
-        JPanel wrapper = new JPanel(new BorderLayout());
-        wrapper.setBackground(new Color(40, 40, 55));
-        wrapper.setBorder(BorderFactory.createTitledBorder(
-            BorderFactory.createLineBorder(new Color(0, 180, 140)),
-            "Typist Configuration",
-            TitledBorder.LEFT, TitledBorder.TOP,
-            new Font("Monospaced", Font.BOLD, 13),
-            new Color(0, 180, 140)
-        ));
+        JPanel outer = new JPanel(new BorderLayout());
+        outer.setBackground(mainBackgroundColour);
 
         typistPanelContainer = new JPanel();
         typistPanelContainer.setLayout(new BoxLayout(typistPanelContainer, BoxLayout.Y_AXIS));
-        typistPanelContainer.setOpaque(false);
+
+        typistPanelContainer.setBackground(mainBackgroundColour);
+        typistPanelContainer.setBorder(BorderFactory.createEmptyBorder(10, 40, 10, 40));
 
         JScrollPane scroll = new JScrollPane(typistPanelContainer);
-        scroll.setOpaque(false);
-        scroll.getViewport().setOpaque(false);
+        scroll.setBackground(new Color(30, 30, 40));
+        scroll.getViewport().setBackground(new Color(30, 30, 40));
         scroll.setBorder(null);
-        wrapper.add(scroll, BorderLayout.CENTER);
 
-        return wrapper;
+        outer.add(scroll, BorderLayout.CENTER);
+        return outer;
     }
 
     // Add/remove typist panels when seat count changes
@@ -265,11 +283,12 @@ public class SetupScreen extends JPanel
             this.baseAccuracy = baseAccuracy;
 
             setLayout(new GridLayout(0, 2, 5, 3));
-            setBackground(new Color(50, 50, 65));
+            setBackground(mainBackgroundColour);
             setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(80, 80, 100)), "Typist " + seatNumber, TitledBorder.LEFT, TitledBorder.TOP,
-            new Font("Monospaced", Font.BOLD, 11), new Color(150, 150, 200)));
+            new Font("Monospaced", Font.BOLD, 11), textSecondaryColour));
 
             setMaximumSize(new Dimension(Integer.MAX_VALUE, 200));
+            setAlignmentX(Component.LEFT_ALIGNMENT);
 
             add(smallLabel("Name:"));
             nameField = new JTextField(defaultName);
@@ -299,8 +318,8 @@ public class SetupScreen extends JPanel
             {
                 accessoryBoxes[i] = new JCheckBox(accessories[i]);
                 accessoryBoxes[i].setFont(new Font("Monospaced", Font.PLAIN, 10));
-                accessoryBoxes[i].setForeground(new Color(180, 180, 200));
-                accessoryBoxes[i].setBackground(new Color(50, 50, 65));
+                accessoryBoxes[i].setForeground(textPrimaryColour);
+                accessoryBoxes[i].setBackground(panelBackgroundColour);
                 accPanel.add(accessoryBoxes[i]);
             }
             add(accPanel);
@@ -351,24 +370,24 @@ public class SetupScreen extends JPanel
         {
             JLabel l = new JLabel(text);
             l.setFont(new Font("Monospaced", Font.BOLD, 11));
-            l.setForeground(new Color(160, 160, 190));
+            l.setForeground(textSecondaryColour);
             return l;
         }
 
         private void styleTextField(JTextField field)
         {
             field.setFont(new Font("Monospaced", Font.PLAIN, 12));
-            field.setBackground(new Color(65, 65, 80));
-            field.setForeground(Color.WHITE);
-            field.setCaretColor(Color.WHITE);
+            field.setBackground(mainBackgroundColour);
+            field.setForeground(textPrimaryColour);
+            field.setCaretColor(textPrimaryColour);
             field.setBorder(BorderFactory.createLineBorder(new Color(80, 80, 100)));
         }
 
         private void styleCombo(JComboBox<String> combo)
         {
             combo.setFont(new Font("Monospaced", Font.PLAIN, 11));
-            combo.setBackground(new Color(65, 65, 80));
-            combo.setForeground(Color.WHITE);
+            combo.setBackground(mainBackgroundColour);
+            combo.setForeground(textPrimaryColour);
         }
     }
 
