@@ -22,6 +22,12 @@ public class SetupScreen extends JPanel
     // Accessory options
     private static final String[] accessories = { "Wrist Support", "Energy Drink", "Noise-Cancelling Headphones" };
 
+    private static final String[] accessoryDescriptions = {
+        "Reduces burnout duration by 1 turn",
+        "Accuracy +0.10 first half, -0.05 second half",
+        "Reduces mistype chance"
+    };
+
     // UI references for collecting settings
     private JFrame parentFrame;
     private JComboBox<String> passageCombo;
@@ -41,11 +47,10 @@ public class SetupScreen extends JPanel
     // Colour scheme
     private static final Color mainBackgroundColour = new Color(18, 18, 28);  
     private static final Color panelBackgroundColour = new Color(30, 32, 48);   
-    private static final Color fieldBackgroundColour = new Color(42, 45, 65);   
     private static final Color accentColour = new Color(72, 199, 170);  
     private static final Color textPrimaryColour = new Color(230, 230, 240); 
     private static final Color textSecondaryColour = new Color(170, 172, 195);
-    private static final Color borderColour = new Color(60, 65, 95);  
+    private static final Color laneColour = new Color(40, 180, 140);
 
     // Constructor
     public SetupScreen(JFrame parentFrame)
@@ -58,7 +63,7 @@ public class SetupScreen extends JPanel
 
         // Title
         JLabel title = new JLabel("TYPING RACE SIMULATOR", SwingConstants.CENTER);
-        title.setFont(new Font("Monospaced", Font.BOLD, 26));
+        title.setFont(new Font("Monospaced", Font.BOLD, 30));
         title.setForeground(new Color(0, 220, 180));
          title.setForeground(accentColour);
         title.setOpaque(true);
@@ -68,7 +73,7 @@ public class SetupScreen extends JPanel
 
         // Tabs
         tabs = new JTabbedPane();
-        tabs.setFont(new Font("Monospaced", Font.BOLD, 13));
+        tabs.setFont(new Font("Monospaced", Font.BOLD, 15));
 
         tabs.setBackground(mainBackgroundColour);
         tabs.setForeground(textPrimaryColour);
@@ -78,6 +83,7 @@ public class SetupScreen extends JPanel
 
         // Start button
         JButton startButton = new JButton("START RACE");
+        startButton.setFont(new Font("Monospaced", Font.BOLD, 30));
         startButton.setBackground(new Color(40, 180, 140));
         startButton.setForeground(Color.WHITE);
         startButton.setFocusPainted(false);
@@ -100,13 +106,13 @@ public class SetupScreen extends JPanel
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         panel.setBackground(mainBackgroundColour);
-        panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(accentColour),"Race Configuration", TitledBorder.LEFT, TitledBorder.TOP,new Font("Monospaced", Font.BOLD, 13),accentColour));
+        panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(accentColour),"Race Configuration", TitledBorder.LEFT, TitledBorder.TOP,new Font("Monospaced", Font.BOLD, 15),accentColour));
         panel.setPreferredSize(new Dimension(700, 450));
 
         //Passage selection
         panel.add(makeLabel("Passage Length:"));
         passageCombo = new JComboBox<>(passageLabels);
-        passageCombo.setFont(new Font("Monospaced", Font.PLAIN, 13));
+        passageCombo.setFont(new Font("Monospaced", Font.PLAIN, 15));
         passageCombo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
         passageCombo.setBackground(mainBackgroundColour);
         passageCombo.setForeground(textPrimaryColour);
@@ -144,7 +150,7 @@ public class SetupScreen extends JPanel
         panel.add(makeLabel("Number of Typists (2-6):"));
         SpinnerNumberModel spinnerModel = new SpinnerNumberModel(2, 2, 6, 1);
         seatCountSpinner = new JSpinner(spinnerModel);
-        seatCountSpinner.setFont(new Font("Monospaced", Font.PLAIN, 13));
+        seatCountSpinner.setFont(new Font("Monospaced", Font.PLAIN, 15));
         seatCountSpinner.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
         seatCountSpinner.addChangeListener(e ->
             updateTypistPanels((int) seatCountSpinner.getValue()));
@@ -285,7 +291,7 @@ public class SetupScreen extends JPanel
             setLayout(new GridLayout(0, 2, 5, 3));
             setBackground(mainBackgroundColour);
             setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(80, 80, 100)), "Typist " + seatNumber, TitledBorder.LEFT, TitledBorder.TOP,
-            new Font("Monospaced", Font.BOLD, 11), textSecondaryColour));
+            new Font("Monospaced", Font.BOLD, 14), textSecondaryColour));
 
             setMaximumSize(new Dimension(Integer.MAX_VALUE, 200));
             setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -366,17 +372,22 @@ public class SetupScreen extends JPanel
             return nameField.getText().trim().toUpperCase(); 
         }
 
+        public Color getLaneColour()   
+        { 
+            return laneColour; 
+        }
+
         private JLabel smallLabel(String text)
         {
             JLabel l = new JLabel(text);
-            l.setFont(new Font("Monospaced", Font.BOLD, 11));
+            l.setFont(new Font("Monospaced", Font.BOLD, 13));
             l.setForeground(textSecondaryColour);
             return l;
         }
 
         private void styleTextField(JTextField field)
         {
-            field.setFont(new Font("Monospaced", Font.PLAIN, 12));
+            field.setFont(new Font("Monospaced", Font.PLAIN, 14));
             field.setBackground(mainBackgroundColour);
             field.setForeground(textPrimaryColour);
             field.setCaretColor(textPrimaryColour);
@@ -385,7 +396,7 @@ public class SetupScreen extends JPanel
 
         private void styleCombo(JComboBox<String> combo)
         {
-            combo.setFont(new Font("Monospaced", Font.PLAIN, 11));
+            combo.setFont(new Font("Monospaced", Font.PLAIN, 13));
             combo.setBackground(mainBackgroundColour);
             combo.setForeground(textPrimaryColour);
         }
