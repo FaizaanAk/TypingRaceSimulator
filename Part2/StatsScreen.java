@@ -21,7 +21,7 @@ public class StatsScreen extends JPanel
             }
         }
 
-        // --- Title ---
+        // Title
         String winnerText = (winnerIdx != -1)
             ? ("Winner: " + typists[winnerIdx].getSymbol() + "  " + typists[winnerIdx].getName() +
                "  |  Accuracy: " + String.format("%.2f", typists[winnerIdx].getAccuracy()))
@@ -37,21 +37,18 @@ public class StatsScreen extends JPanel
         Object[][] data = new Object[typists.length][columns.length];
 
         double timeMinutes = totalTimeMs / 1000.0 / 60.0;
-        for (int i = 0; i < typists.length; i++) {
-            // Place
+        for (int i = 0; i < typists.length; i++) 
+        {
+
             String place = finishPositions[i] > 0 ? ("#" + finishPositions[i]) : "-";
-            // Typist
             String typistStr = typists[i].getSymbol() + "  " + typists[i].getName();
-            // WPM
             double wpm = (passageLength / 5.0) / (timeMinutes > 0 ? timeMinutes : 1);
-            // Accuracy %
             int correct = typists[i].getProgress();
             int total = totalKeystrokes[i];
             double accPct = (total > 0) ? (100.0 * correct / total) : 0.0;
-            // Burnouts
             int burnouts = burnoutCounts[i];
-            // Accuracy Δ (change)
-            // Assume accuracy change is: +0.02 for winner, -0.01 per burnout (as in RaceDisplay)
+            
+            
             double accChange = 0.0;
             if (finishPositions[i] == 1) accChange += 0.02;
             if (burnoutCounts[i] > 0) accChange -= 0.01 * burnoutCounts[i];
@@ -81,7 +78,7 @@ public class StatsScreen extends JPanel
         scroll.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 40));
         add(scroll, BorderLayout.CENTER);
 
-        // --- Back to Setup button ---
+        // Back to Setup button
         JButton backBtn = new JButton("Back to Setup");
         backBtn.setFont(new Font("Monospaced", Font.BOLD, 16));
         backBtn.setBackground(new Color(72, 199, 170));

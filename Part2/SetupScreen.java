@@ -22,12 +22,6 @@ public class SetupScreen extends JPanel
     // Accessory options
     private static final String[] accessories = { "Wrist Support", "Energy Drink", "Noise-Cancelling Headphones" };
 
-    private static final String[] accessoryDescriptions = {
-        "Reduces burnout duration by 1 turn",
-        "Accuracy +0.10 first half, -0.05 second half",
-        "Reduces mistype chance"
-    };
-
     // UI references for collecting settings
     private JFrame parentFrame;
     private JComboBox<String> passageCombo;
@@ -75,8 +69,8 @@ public class SetupScreen extends JPanel
         tabs = new JTabbedPane();
         tabs.setFont(new Font("Monospaced", Font.BOLD, 15));
 
-        tabs.setBackground(mainBackgroundColour);
-        tabs.setForeground(textPrimaryColour);
+        tabs.setBackground(accentColour);
+        tabs.setForeground(Color.WHITE);
         tabs.addTab("  Race Configuration  ", buildRaceSetupScreen());
         tabs.addTab("  Typist Customisation  ", buildTypistSetupScreen());
         add(tabs, BorderLayout.CENTER);
